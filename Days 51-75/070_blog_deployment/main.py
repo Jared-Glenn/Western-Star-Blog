@@ -14,8 +14,22 @@ from sqlalchemy import Table, Column, Integer, ForeignKey
 from functools import wraps
 import requests
 import smtplib
-import security
+import os
+from dotenv import load_dotenv
 import datetime
+
+
+# PREPARE ENV
+load_dotenv()
+
+SMTP_GMAIL = os.getenv("SMTP_GMAIL")
+
+GMAIL_EMAIL1 = os.getenv("GMAIL_EMAIL1")
+GMAIL_PASSWORD1 = os.getenv("GMAIL_PASSWORD1")
+
+GMAIL_EMAIL2 = os.getenv("GMAIL_EMAIL2")
+GMAIL_PASSWORD2 = os.getenv("GMAIL_PASSWORD2")
+
 
 # PREPARE APP
 app = Flask(__name__)
@@ -173,12 +187,12 @@ def contact():
         email = request.form["email"]
         phone = request.form["phone"]
         message = request.form["message"]
-        with smtplib.SMTP(security.SMTP_GMAIL) as connection:
+        with smtplib.SMTP(SMTP_GMAIL) as connection:
             connection.starttls()
-            connection.login(user=security.gmail_email1, password=security.gmail_password1)
+            connection.login(user=GMAIL_EMAIL1, password=GMAIL_PASSWORD1)
             connection.sendmail(
-                from_addr=security.gmail_email1,
-                to_addrs=security.gmail_email2,
+                from_addr=GMAIL_EMAIL1,
+                to_addrs=GMAIL_EMAIL2,
                 msg= f"Subject:💫 Western Star Message!\n\nFrom: {name}\nEmail: {email}\nPhone:"
                      f" {phone}\n\n{message}".encode('utf-8')
             )
@@ -254,7 +268,7 @@ def edit_post(num):
         post.title=edit_form.title.data
         post.subtitle=edit_form.subtitle.data
         post.body=edit_form.body.data
-        post.author=edit_form.author.data
+        post.author=current_user
         post.img_url=edit_form.img_url.data
         db.session.commit()
         return render_template("post.html", page="post", this_entry=post, head="reg", logged_in=current_user.is_authenticated)
