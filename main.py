@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, abort
 from flask_wtf import FlaskForm
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap
 from wtforms import StringField, IntegerField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, NumberRange, URL
 from flask_sqlalchemy import SQLAlchemy
@@ -39,7 +39,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///posts.db"
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'anything'
 ckeditor = CKEditor(app)
-bootstrap = Bootstrap5(app)
+bootstrap = Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
