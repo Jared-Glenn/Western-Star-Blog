@@ -34,10 +34,10 @@ GMAIL_PASSWORD2 = os.getenv("GMAIL_PASSWORD2")
 # PREPARE APP
 app = Flask(__name__)
 app.app_context().push()
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://western_star_db_user:T0VVDibLg7lWb2lGSMRf9KqO7AuhddwY@dpg-ce1aum6n6mpu84vps7i0-a.oregon-postgres.render.com/western_star_db"
 db = SQLAlchemy(app)
-app.config['SECRET_KEY'] = 'anything'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap(app)
 login_manager = LoginManager()
