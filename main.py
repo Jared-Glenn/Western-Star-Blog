@@ -34,13 +34,13 @@ GMAIL_PASSWORD2 = os.getenv("GMAIL_PASSWORD2")
 # PREPARE APP
 app = Flask(__name__)
 app.app_context().push()
-db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 uri = os.getenv("DATABASE_URL")
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(uri, "sqlite:///posts.db")
 app.secret_key = os.getenv("SECRET_KEY")
+db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
 bootstrap = Bootstrap(app)
 login_manager = LoginManager()
